@@ -67,10 +67,14 @@ Support only python3 with pip3.
     ```
     eval "$(ssh-agent -s)"
     ```
-
-    ```
-    ssh-add ~/.ssh/github_id
-    ```
+    - For MacOS
+        ```
+        ssh-add -K ~/.ssh/github_id
+        ```
+    - For Linux
+        ```
+        ssh-add ~/.ssh/github_id
+        ```
 
 ### Installing
 
