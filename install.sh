@@ -31,7 +31,7 @@ system_name=$(uname)
 # Define the util path depending on the system
 case "$system_name" in
     "Darwin" ) util_path="/usr/local/Cellar/create";;
-    "Linux" ) util_path="/usr/local/";;
+    "Linux" ) util_path="/opt";;
     * ) exit 1;;
 esac
 
@@ -51,8 +51,8 @@ rm bin/.conf
 cd "$util_path/bin"
 
 chmod 400 .conf
-# Compile the python file
-pyinstaller create_project.py
+# # Compile the python file
+# pyinstaller create_project.py
 
 # Add symbolic link to util
 ln -s "$util_path/bin/.create_command.sh" "/usr/local/bin/create"

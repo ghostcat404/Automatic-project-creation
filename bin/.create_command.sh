@@ -48,7 +48,7 @@ touch "src/__init__.py"
 echo "Please enter your github.com password"
 read -sp "Password: " passvar
 echo ""
-$dir/dist/create_project/./create_project $U_NAME $passvar $1
+python3 $dir/create_project.py $U_NAME $passvar $1
 git init
 git remote add origin git@github.com:$U_NAME/$1.git
 git add .
