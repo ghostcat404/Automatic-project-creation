@@ -51,13 +51,7 @@ And all steps will be done automatically
 
 First, make sure that you are in the root directory of the repository. Then run in terminal:
 
-1. Run
-
-    ```
-    cmod u+x install.sh
-    ```
-
-2. Then just run the install.sh script and follow instructions
+1. Just run the install.sh script and follow instructions
 
     ```
     ./install.sh
