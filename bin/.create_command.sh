@@ -1,11 +1,34 @@
 #!/bin/bash
-# TODO: PArametrize push via ssh-key or password and user_name
+
 #################################### FUNCTIONS  ####################################
 
 usage() {
-    # TODO: Implement usage when the -h or --help is passed
-    echo "Not Implemented"
-    exit 1
+    echo "USAGE: create [options [arg]] ..."
+    echo ""
+    echo "OPTIONS:"
+    echo ""
+    echo "    -f, --file-name (required option)        Project folder name"
+    echo "    -p, --use-password                       Use password or ssh-key to push \"Initial commit\" to github"
+    echo "    --path                                   Create project in an another folder (Different from the default)"
+    echo "    -h, --help                               Getting help for usage"
+    echo ""
+    echo "EXAMPLES:"
+    echo ""
+    echo "    By default using creating repository via ssh-key"
+    echo "    (see README.md in https://github.com/ChesnovAE/Automatic-project-creation/blob/master/README.md)"
+    echo "    Just type:"
+    echo ""
+    echo "        create -f <project name>"
+    echo ""
+    echo "    For example, if you work not on your main computer, you can"
+    echo "    create project using github UserName and Password:"
+    echo ""
+    echo "        create -f <project name> -p"
+    echo ""
+    echo "    Creating project in another folder that different from the"
+    echo "    default folder that was determined during installation"
+    echo ""
+    echo "        create -f <project name> --path </full/path/to/folder>"
 }
 
 ######################### Function for json parsing ####################
@@ -27,16 +50,18 @@ parse_json() {
 ########################################################################
 
 #################################### END FUNCTIONS  #################################
+
 #################################### START MAIN  ####################################
 
 ############################ Parse CLI args ############################
 if [[ "$1" == "" ]];
 then
     echo "Error! arguments required"
-    echo "Type -h to get help with usage of command"
+    usage
     exit 1
 fi
 PROJECT_PATH=""
+use_ssh_key=1
 while [ "$1" != "" ]; do
     case "$1" in
         -p | --use-password )
