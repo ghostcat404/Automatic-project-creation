@@ -76,11 +76,17 @@ Support only python3 with pip3.
 
 First, make sure that you are in the root directory of the repository. Then run in terminal:
 
-1. Just run the install.sh script and follow instructions
+- For MacOS:
 
-    ```
-    ./install.sh
-    ```
+  ```
+  ./install.sh
+  ```
+
+- For Linux:
+
+  ```
+  sudo ./install.sh
+  ```
 
 ## Usage
 After installation you can use util in terminal.
