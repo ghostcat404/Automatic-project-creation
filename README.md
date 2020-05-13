@@ -1,6 +1,6 @@
 # Automatic-project-creation
 
-This command line util can help you automize something routine tasks when you want to create new project.  
+This command line util can help you automize something routine tasks when you want to create new project and push the initial commit to github.  
 
 For example, if you want to create you project and create git repository then pushed to github, you have to create new folder in your default projects folders, then run ```git init```, then go to github website and so on...
 
@@ -28,6 +28,8 @@ And all steps will be done automatically
 
 ## Getting Started
 
+Support only python3 with pip3.
+
 ### Prerequisites
 
 1. First of all you need to install all prerequisites. Follow the commands below:
@@ -37,6 +39,7 @@ And all steps will be done automatically
     ```
 
 2. This package need a several python dependeces. Install it:
+
     ```
     pip install -r requirements.txt
     ```
@@ -45,6 +48,26 @@ And all steps will be done automatically
 
     ```
     pip3 install -r requirements.txt
+    ```
+
+3. If you have ssh key for github.com you can pass step 3 and 4. If you don't have ssh key type in your terminal:
+
+    ```
+    ssh-keygen -t rsa -b 4096 -f ~/.ssh/github_id
+    ```
+
+4. Copy all content from ~/.ssh/github.pub.
+
+   Go to github.com > Settings > SSH and GPG keys. Click New SSH key and paste copied content.
+
+5. Finalle go to terminal and add your private key to ssh-agent
+
+    ```
+    eval "$(ssh-agent -s)"
+    ```
+
+    ```
+    ssh-add ~/.ssh/github_id
     ```
 
 ### Installing

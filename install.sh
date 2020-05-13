@@ -31,7 +31,7 @@ system_name=$(uname)
 # Define the util path depending on the system
 case "$system_name" in
     "Darwin" ) util_path="/usr/local/Cellar/create";;
-    "Linux" ) util_path="/opt";;
+    "Linux" ) util_path="/opt/create";;
     * ) exit 1;;
 esac
 
@@ -42,6 +42,23 @@ insert_some_code
 if [[ ! -d "$util_path" ]];
 then
     mkdir $util_path
+else
+    echo "Directory $util_path already exist"
+    while true; do
+        read -p "Do you wish to reinstall util? All old files will be removed. [y/n]: " yn
+        case $yn in
+            [Yy]* ) 
+                rm -rf $util_path
+                rm -rf "/usr/local/bin/create"
+                break
+                ;;
+            [Nn]* )
+                exit
+                ;;
+            * ) echo "Please answer yes or no.";;
+        esac
+    done
+    mkdir $util_path
 fi
 cp -r ./bin $util_path
 
@@ -50,7 +67,7 @@ rm bin/.conf
 # Go to folder with python script
 cd "$util_path/bin"
 
-chmod 400 .conf
+chmod 644 .conf
 # # Compile the python file
 # pyinstaller create_project.py
 
