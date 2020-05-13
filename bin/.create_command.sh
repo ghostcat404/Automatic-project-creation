@@ -1,6 +1,4 @@
 #!/bin/bash
-# TODO: add the change directory ability
-# TODO: add uninstall option
 # $1 - name of new project
 function parse_json()
 {
