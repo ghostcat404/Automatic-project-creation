@@ -12,6 +12,9 @@ And all steps will be done automatically
 
 ## Features
 
+- [x] Support MacOS
+- [ ] Support Linux system (Not support yet)
+- [ ] Support Windows system (Not support yet)
 - [x] Creating project Folder in default projects folder
 - [x] Creating folders: **src**, **docs**
 - [x] Creating files: **.gitignore**, **requirements.txt**, template **README** file, **src/__init__.py**
