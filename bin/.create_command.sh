@@ -1,7 +1,15 @@
 #!/bin/bash
-# $1 - name of new project
-function parse_json()
-{
+# TODO: PArametrize push via ssh-key or password and user_name
+#################################### FUNCTIONS  ####################################
+
+usage() {
+    # TODO: Implement usage when the -h or --help is passed
+    echo "Not Implemented"
+    exit 1
+}
+
+######################### Function for json parsing ####################
+parse_json() {
     echo $1 | \
     sed -e 's/[{}]/''/g' | \
     sed -e 's/", "/'\",\"'/g' | \
@@ -16,17 +24,61 @@ function parse_json()
     sed -e 's/^[ \t]*//g' | \
     sed -e 's/^"//'  -e 's/"$//'
 }
-########################### Define variables ###########################
-dir=$(dirname $(readlink /usr/local/bin/create))
-conf=$(cat $dir/.conf)
-U_NAME=$(parse_json "$conf" user_name)
-PROJECTPATH=$(parse_json "$conf" project_path)
-# Check path
-if [[ "${PROJECTPATH: -1}" == '/' ]];
+########################################################################
+
+#################################### END FUNCTIONS  #################################
+#################################### START MAIN  ####################################
+
+############################ Parse CLI args ############################
+if [[ "$1" == "" ]];
 then
-    path=$PROJECTPATH$1
+    echo "Error! arguments required"
+    echo "Type -h to get help with usage of command"
+    exit 1
+fi
+PROJECT_PATH=""
+while [ "$1" != "" ]; do
+    case "$1" in
+        -p | --use-password )
+            use_ssh_key=0
+            ;;
+        -f | --file-name )
+            PROJECT_NAME=$2
+            shift
+            ;;
+        --path )
+            PROJECT_PATH=$2
+            shift
+            ;;
+        -h | --help )
+            usage
+            exit
+            ;;
+        * )
+            usage
+            exit 1
+    esac
+    shift
+done
+########################################################################
+
+########################### Define variables ###########################
+# Directory where source stored
+dir=$(dirname $(readlink /usr/local/bin/create))
+# Json config with user_name and default_project_path
+conf=$(cat $dir/.conf)
+USER_NAME=$(parse_json "$conf" user_name)
+if [[ -z $PROJECT_PATH ]];
+then
+    DEFAULT_PROJECT_PATH=$(parse_json "$conf" project_path)
 else
-    path="$PROJECTPATH/$1"
+    DEFAULT_PROJECT_PATH=$PROJECT_PATH
+fi
+if [[ "${DEFAULT_PROJECT_PATH: -1}" == '/' ]];
+then
+    path=$DEFAULT_PROJECT_PATH$PROJECT_NAME
+else
+    path="$DEFAULT_PROJECT_PATH/$PROJECT_NAME"
 fi
 #########################################################################
 
@@ -34,10 +86,9 @@ fi
 mkdir "$path"
 cd $path
 touch "requirements.txt"
-# Get template for README.md
 cp "$dir/README-Template.md" README.md
 # Insert project name with vim
-ex -s -c "1i|# $1" -c x README.md
+ex -s -c "1i|# $PROJECT_NAME" -c x README.md
 touch ".gitignore"
 mkdir "src/"
 mkdir "docs/"
@@ -48,10 +99,17 @@ touch "src/__init__.py"
 echo "Please enter your github.com password"
 read -sp "Password: " passvar
 echo ""
-python3 $dir/create_project.py $U_NAME $passvar $1
+python3 $dir/create_project.py $USER_NAME $passvar $PROJECT_NAME
 git init
-git remote add origin git@github.com:$U_NAME/$1.git
+if [[ use_ssh_key -eq 0 ]];
+then
+    git remote add origin git@github.com:$USER_NAME/$PROJECT_NAME.git
+else
+    git remote add origin https://github.com/$USER_NAME/$PROJECT_NAME.git
+fi
 git add .
 git commit -m "Initial commit"
 git push -u origin master
 ##########################################################################
+
+#################################### END MAIN  ####################################
