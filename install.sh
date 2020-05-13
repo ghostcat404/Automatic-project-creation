@@ -43,9 +43,10 @@ if [[ ! -d "$util_path" ]];
 then
     mkdir $util_path
 else
+    echo ""
     echo "Directory $util_path already exist"
     while true; do
-        read -p "Do you wish to reinstall util? All old files will be removed. [y/n]: " yn
+        read -p "Do you wish to REINSTALL util? All old files will be removed. [y/n]: " yn
         case $yn in
             [Yy]* ) 
                 rm -rf $util_path
@@ -58,6 +59,7 @@ else
             * ) echo "Please answer yes or no.";;
         esac
     done
+    echo ""
     mkdir $util_path
 fi
 cp -r ./bin $util_path

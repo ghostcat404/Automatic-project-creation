@@ -15,7 +15,7 @@ And all steps will be done automatically
 ## Features
 
 - [x] Support MacOS
-- [ ] Support Linux system (Not support yet)
+- [x] Support Linux system
 - [ ] Support Windows system (Not support yet)
 - [x] Creating project Folder in default projects folder
 - [x] Creating folders: **src**, **docs**
@@ -24,7 +24,9 @@ And all steps will be done automatically
 - [x] Init repo, remote add and push to remote init commit
 - [ ] Changing default projects directory
 - [ ] Creating different trees folders for different projects
-- [ ] Unistall option = SUICIDE X)
+- [ ] Uninstall option = SUICIDE X)
+
+***If you have any ideas what functionality can be added please leave issue***
 
 ## Getting Started
 
