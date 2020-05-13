@@ -58,7 +58,7 @@ Support only python3 with pip3.
     ssh-keygen -t rsa -b 4096 -f ~/.ssh/github_id
     ```
 
-4. Copy all content from ~/.ssh/github.pub.
+4. Copy all content from ```~/.ssh/github_id.pub```
 
    Go to github.com > Settings > SSH and GPG keys. Click New SSH key and paste copied content.
 
@@ -93,7 +93,9 @@ First, make sure that you are in the root directory of the repository. Then run 
   ```
 
 ## Usage
+
 After installation you can use util in terminal.
+
 1. Just type in terminal:
 
     ```
