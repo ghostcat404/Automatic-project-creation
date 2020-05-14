@@ -20,9 +20,8 @@ And all steps will be done automatically
 - [x] Creating project Folder in default projects folder
 - [x] Creating folders: **src**, **docs**
 - [x] Creating files: **.gitignore**, **requirements.txt**, template **README** file, **src/__init__.py**
-- [x] Creating remote github repository
-- [x] Init repo, remote add and push to remote init commit
-- [ ] Changing default projects directory
+- [x] Creating repository on github.com
+- [x] Init repo, add remote repository, push to init commit
 - [ ] Creating different trees folders for different projects
 - [ ] Uninstall option = SUICIDE X)
 
@@ -62,7 +61,7 @@ Support only python3 with pip3.
 
    Go to github.com > Settings > SSH and GPG keys. Click New SSH key and paste copied content.
 
-5. Finalle go to terminal and add your private key to ssh-agent
+5. Finall go to terminal and add your private key to ssh-agent
 
     ```
     eval "$(ssh-agent -s)"

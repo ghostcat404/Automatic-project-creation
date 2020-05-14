@@ -7,22 +7,10 @@ set_git_user_info() {
     git config --global user.email "$useremail"
 }
 configure_git_config() {
-    # if [[ -z $(git config --get user.name) ]];
-    # then
-    #     echo "Please enter your github.com username"
-    #     read -p "Username: " uservar
-    # else
-    #     while true;
-    #     do
-    #         read -p "Would you like use this username $"
-    #     done
-    # fi
     if [[ -f "$HOME/.gitconfig" ]];
     then
         if [[ -z $(git config --get user.name) ]];
         then
-            uservar=$(git config --get user.name)
-        else
             set_git_user_info
         fi
     else
@@ -43,10 +31,6 @@ configure_git_config() {
             echo "Please enter default projects directory path again"
         fi
     done
-    # cd bin/
-    # touch .conf
-    # echo "{\"user_name\":\"$uservar\", \"project_path\":\"$directory_path\"}" >> .conf
-    # cd ../
 }
 
 # Define installer folder
@@ -74,12 +58,12 @@ else
     while true; do
         read -p "Do you wish to REINSTALL util? All old files will be removed. [y/n]: " yn
         case $yn in
-            [Yy]* ) 
+            [Yy]* | "yes" ) 
                 rm -rf $util_path
                 rm -rf "/usr/local/bin/create"
                 break
                 ;;
-            [Nn]* )
+            [Nn]* | "no" )
                 exit
                 ;;
             * ) echo "Please answer yes or no.";;
@@ -89,6 +73,7 @@ else
     mkdir $util_path
 fi
 cp -r ./bin $util_path
+cp -r ./src $util_path
 
 # rm bin/.conf
 

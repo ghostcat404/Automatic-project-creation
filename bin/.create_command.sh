@@ -33,24 +33,6 @@ usage_examples() {
     echo "        create -f <project name> --path </full/path/to/folder>"
 }
 
-######################### Function for json parsing ####################
-# parse_json() {
-#     echo $1 | \
-#     sed -e 's/[{}]/''/g' | \
-#     sed -e 's/", "/'\",\"'/g' | \
-#     sed -e 's/" ,"/'\",\"'/g' | \
-#     sed -e 's/" , "/'\",\"'/g' | \
-#     sed -e 's/","/'\"---SEPERATOR---\"'/g' | \
-#     awk -F=':' -v RS='---SEPERATOR---' "\$1~/\"$2\"/ {print}" | \
-#     sed -e "s/\"$2\"://" | \
-#     tr -d "\n\t" | \
-#     sed -e 's/\\"/"/g' | \
-#     sed -e 's/\\\\/\\/g' | \
-#     sed -e 's/^[ \t]*//g' | \
-#     sed -e 's/^"//'  -e 's/"$//'
-# }
-########################################################################
-
 #################################### END FUNCTIONS  #################################
 
 #################################### START MAIN  ####################################
@@ -115,8 +97,6 @@ fi
 ########################### Define variables ###########################
 # Directory where source stored
 dir=$(dirname $(readlink /usr/local/bin/create))
-# Json config with user_name and default_project_path
-conf=$(cat $dir/.conf)
 USER_NAME=$(git config --get user.name)
 if [[ -z $PROJECT_PATH ]];
 then
@@ -129,6 +109,11 @@ then
     path=$DEFAULT_PROJECT_PATH$PROJECT_NAME
 else
     path="$DEFAULT_PROJECT_PATH/$PROJECT_NAME"
+fi
+if [[ -d "$path" ]];
+then
+    echo "Error: $path already exist"
+    exit 1
 fi
 #########################################################################
 
