@@ -61,6 +61,7 @@ then
     exit 1
 fi
 PROJECT_PATH=""
+PROJECT_NAME=""
 use_ssh_key=1
 while [ "$1" != "" ]; do
     case "$1" in
@@ -68,23 +69,44 @@ while [ "$1" != "" ]; do
             use_ssh_key=0
             ;;
         -f | --file-name )
-            PROJECT_NAME=$2
-            shift
+            if [[ "$2" != "" ]];
+	    then
+	    	PROJECT_NAME=$2
+            	shift
+	    else
+		echo "Require name of your project!!!"
+		echo "Use create -h to see examples"
+		exit 1
+    	    fi	
             ;;
         --path )
-            PROJECT_PATH=$2
-            shift
+	    if [[ "$2" != "" ]];
+            then
+            	PROJECT_PATH=$2
+            	shift
+    	    else
+		echo "Require path to folder!!!"
+		echo "Use create -h to see examples"
+                exit 1
+	    fi
             ;;
         -h | --help )
             usage
             exit
             ;;
         * )
+	    echo "invalid option!!!"
             usage
             exit 1
     esac
     shift
 done
+if [[ -z $PROJECT_NAME ]];
+then
+    echo "-f <project name> is necessary option"
+    echo "Use create -h to see examples"
+    exit 1
+fi
 ########################################################################
 
 ########################### Define variables ###########################
@@ -128,9 +150,9 @@ python3 $dir/create_project.py $USER_NAME $passvar $PROJECT_NAME
 git init
 if [[ use_ssh_key -eq 0 ]];
 then
-    git remote add origin git@github.com:$USER_NAME/$PROJECT_NAME.git
-else
     git remote add origin https://github.com/$USER_NAME/$PROJECT_NAME.git
+else
+    git remote add origin git@github.com:$USER_NAME/$PROJECT_NAME.git
 fi
 git add .
 git commit -m "Initial commit"
@@ -139,6 +161,10 @@ git push -u origin master
 
 ##################### Run VS Code editor if available ###################
 if [[ -f "/usr/local/bin/code" ]];
+then
+    code .
+fi
+if [[ -f "/usr/bin/code" ]];
 then
     code .
 fi
