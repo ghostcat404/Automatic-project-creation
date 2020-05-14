@@ -1,5 +1,11 @@
 #!/bin/bash
-
+set_git_user_info() {
+    echo "Please enter your info for setting .gitconfig file"
+    read -p "User name: " uservar
+    read -p "User email: " useremail
+    git config --global user.name "$uservar"
+    git config --global user.email "$useremail"
+}
 configure_git_config() {
     # if [[ -z $(git config --get user.name) ]];
     # then
@@ -11,15 +17,16 @@ configure_git_config() {
     #         read -p "Would you like use this username $"
     #     done
     # fi
-    if [ [ -f "$HOME/.gitconfig"] && [ -z $(git config --get user.name) ] ];
+    if [[ -f "$HOME/.gitconfig" ]];
     then
-        uservar=$(git config --get user.name)
+        if [[ -z $(git config --get user.name) ]];
+        then
+            uservar=$(git config --get user.name)
+        else
+            set_git_user_info
+        fi
     else
-        echo "Please enter your info for setting .gitconfig file"
-        read -p "User name: " uservar
-        read -p "User email: " useremail
-        git config --global user.name "$uservar"
-        git config --global user.email "$useremail"
+        set_git_user_info
     fi
     # Read directory path
     echo "Please enter your FULL PATH for default projects directory"
