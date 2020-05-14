@@ -10,5 +10,6 @@ def create_project(u_name, passwd, folder_name):
     repo = user.create_repo(folder_name)
     print("Repository {repo} created Succesfully".format(repo=folder_name))
 
+
 if __name__ == '__main__':
     create_project(sys.argv[1], sys.argv[2], sys.argv[3])

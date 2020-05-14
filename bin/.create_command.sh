@@ -121,7 +121,7 @@ fi
 mkdir "$path"
 cd $path
 touch "requirements.txt"
-cp "$dir/README-Template.md" README.md
+cp "$dir/src/README-Template.md" README.md
 # Insert project name with vim
 ex -s -c "1i|# $PROJECT_NAME" -c x README.md
 touch ".gitignore"
@@ -134,7 +134,7 @@ touch "src/__init__.py"
 echo "Please enter your github.com password"
 read -sp "Password: " passvar
 echo ""
-python3 $dir/create_project.py $USER_NAME $passvar $PROJECT_NAME
+python3 $dir/bin/create_project.py $USER_NAME $passvar $PROJECT_NAME
 git init
 if [[ use_ssh_key -eq 0 ]];
 then

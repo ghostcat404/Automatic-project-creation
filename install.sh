@@ -74,16 +74,10 @@ else
 fi
 cp -r ./bin $util_path
 cp -r ./src $util_path
-
-# rm bin/.conf
-
-# Go to folder with python script
-cd "$util_path/bin"
-
-# chmod 644 .conf
+mv $util_path/bin/.create_command.sh $util_path
 
 # Add symbolic link to util
-ln -s "$util_path/bin/.create_command.sh" "/usr/local/bin/create"
+ln -s "$util_path/.create_command.sh" "/usr/local/bin/create"
 
 # Remove installation folder or not?
 while true; do
