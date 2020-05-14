@@ -37,6 +37,7 @@ configure_git_config() {
         if [[ -d $directory_path ]];
         then
             git config --global path.default "$directory_path";
+            break
         else
             echo "$directory_path does not exist"
             echo "Please enter default projects directory path again"
