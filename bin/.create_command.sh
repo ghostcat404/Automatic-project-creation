@@ -2,7 +2,7 @@
 
 #################################### FUNCTIONS  ####################################
 
-usage() {
+usage_options() {
     echo "USAGE: create [options [arg]] ..."
     echo ""
     echo "OPTIONS:"
@@ -12,6 +12,8 @@ usage() {
     echo "    --path                                   Create project in an another folder (Different from the default)"
     echo "    -h, --help                               Getting help for usage"
     echo ""
+}
+usage_examples() {
     echo "EXAMPLES:"
     echo ""
     echo "    By default using creating repository via ssh-key"
@@ -32,21 +34,21 @@ usage() {
 }
 
 ######################### Function for json parsing ####################
-parse_json() {
-    echo $1 | \
-    sed -e 's/[{}]/''/g' | \
-    sed -e 's/", "/'\",\"'/g' | \
-    sed -e 's/" ,"/'\",\"'/g' | \
-    sed -e 's/" , "/'\",\"'/g' | \
-    sed -e 's/","/'\"---SEPERATOR---\"'/g' | \
-    awk -F=':' -v RS='---SEPERATOR---' "\$1~/\"$2\"/ {print}" | \
-    sed -e "s/\"$2\"://" | \
-    tr -d "\n\t" | \
-    sed -e 's/\\"/"/g' | \
-    sed -e 's/\\\\/\\/g' | \
-    sed -e 's/^[ \t]*//g' | \
-    sed -e 's/^"//'  -e 's/"$//'
-}
+# parse_json() {
+#     echo $1 | \
+#     sed -e 's/[{}]/''/g' | \
+#     sed -e 's/", "/'\",\"'/g' | \
+#     sed -e 's/" ,"/'\",\"'/g' | \
+#     sed -e 's/" , "/'\",\"'/g' | \
+#     sed -e 's/","/'\"---SEPERATOR---\"'/g' | \
+#     awk -F=':' -v RS='---SEPERATOR---' "\$1~/\"$2\"/ {print}" | \
+#     sed -e "s/\"$2\"://" | \
+#     tr -d "\n\t" | \
+#     sed -e 's/\\"/"/g' | \
+#     sed -e 's/\\\\/\\/g' | \
+#     sed -e 's/^[ \t]*//g' | \
+#     sed -e 's/^"//'  -e 's/"$//'
+# }
 ########################################################################
 
 #################################### END FUNCTIONS  #################################
@@ -70,33 +72,34 @@ while [ "$1" != "" ]; do
             ;;
         -f | --file-name )
             if [[ "$2" != "" ]];
-	    then
-	    	PROJECT_NAME=$2
-            	shift
-	    else
-		echo "Require name of your project!!!"
-		echo "Use create -h to see examples"
-		exit 1
+            then
+                PROJECT_NAME=$2
+                    shift
+            else
+                echo "Require name of your project!!!"
+                echo "Use create -h to see examples"
+                exit 1
     	    fi	
             ;;
         --path )
-	    if [[ "$2" != "" ]];
+            if [[ "$2" != "" ]];
             then
-            	PROJECT_PATH=$2
-            	shift
-    	    else
-		echo "Require path to folder!!!"
-		echo "Use create -h to see examples"
+                PROJECT_PATH=$2
+                shift
+            else
+                echo "Require path to folder!!!"
+                echo "Use create -h to see examples"
                 exit 1
-	    fi
+            fi
             ;;
         -h | --help )
-            usage
+            usage_options
+            usage_examples
             exit
             ;;
         * )
 	    echo "invalid option!!!"
-            usage
+            usage_options
             exit 1
     esac
     shift
@@ -114,10 +117,10 @@ fi
 dir=$(dirname $(readlink /usr/local/bin/create))
 # Json config with user_name and default_project_path
 conf=$(cat $dir/.conf)
-USER_NAME=$(parse_json "$conf" user_name)
+USER_NAME=$(git config --get user.name)
 if [[ -z $PROJECT_PATH ]];
 then
-    DEFAULT_PROJECT_PATH=$(parse_json "$conf" project_path)
+    DEFAULT_PROJECT_PATH=$(git config --get path.default)
 else
     DEFAULT_PROJECT_PATH=$PROJECT_PATH
 fi

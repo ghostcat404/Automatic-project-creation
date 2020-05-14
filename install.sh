@@ -1,8 +1,26 @@
 #!/bin/bash
-function insert_some_code () {
 
-    echo "Please enter your github.com username"
-    read -p "Username: " uservar
+configure_git_config() {
+    # if [[ -z $(git config --get user.name) ]];
+    # then
+    #     echo "Please enter your github.com username"
+    #     read -p "Username: " uservar
+    # else
+    #     while true;
+    #     do
+    #         read -p "Would you like use this username $"
+    #     done
+    # fi
+    if [ [ -f "$HOME/.gitconfig"] && [ -z $(git config --get user.name) ] ];
+    then
+        uservar=$(git config --get user.name)
+    else
+        echo "Please enter your info for setting .gitconfig file"
+        read -p "User name: " uservar
+        read -p "User email: " useremail
+        git config --global user.name "$uservar"
+        git config --global user.email "$useremail"
+    fi
     # Read directory path
     echo "Please enter your FULL PATH for default projects directory"
     # Check that directory exist
@@ -11,16 +29,16 @@ function insert_some_code () {
         read -p "Default projects directory path: " directory_path
         if [[ -d $directory_path ]];
         then
-            break;
+            git config --global path.default "$directory_path";
         else
             echo "$directory_path does not exist"
             echo "Please enter default projects directory path again"
         fi
     done
-    cd bin/
-    touch .conf
-    echo "{\"user_name\":\"$uservar\", \"project_path\":\"$directory_path\"}" >> .conf
-    cd ../
+    # cd bin/
+    # touch .conf
+    # echo "{\"user_name\":\"$uservar\", \"project_path\":\"$directory_path\"}" >> .conf
+    # cd ../
 }
 
 # Define installer folder
@@ -35,8 +53,8 @@ case "$system_name" in
     * ) exit 1;;
 esac
 
-# Insert some strings in code
-insert_some_code
+# Configure git config
+configure_git_config
 
 # Copy all files to the desired folder
 if [[ ! -d "$util_path" ]];
@@ -64,14 +82,12 @@ else
 fi
 cp -r ./bin $util_path
 
-rm bin/.conf
+# rm bin/.conf
 
 # Go to folder with python script
 cd "$util_path/bin"
 
-chmod 644 .conf
-# # Compile the python file
-# pyinstaller create_project.py
+# chmod 644 .conf
 
 # Add symbolic link to util
 ln -s "$util_path/bin/.create_command.sh" "/usr/local/bin/create"
