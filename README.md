@@ -16,14 +16,14 @@ And all steps will be done automatically
 
 - [x] Support MacOS
 - [x] Support Linux system
-- [ ] Support Windows system (Not support yet)
+- [ ] Support Windows system (Not support yet...)
 - [x] Creating project Folder in default projects folder
 - [x] Creating folders: **src**, **docs**
 - [x] Creating files: **.gitignore**, **requirements.txt**, template **README** file, **src/__init__.py**
 - [x] Creating repository on github.com
 - [x] Init repo, add remote repository, push to init commit
 - [ ] Creating different trees folders for different projects
-- [ ] Uninstall option = SUICIDE X)
+- [x] Uninstall option = SUICIDE X)
 
 ***If you have any ideas what functionality can be added please leave issue***
 

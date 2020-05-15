@@ -71,7 +71,7 @@ while [ "$1" != "" ]; do
             if [[ "$2" != "" ]];
             then
                 PROJECT_NAME=$2
-                    shift
+                shift
             else
                 echo "Require name of your project!!!"
                 echo "Use create -h to see examples"
