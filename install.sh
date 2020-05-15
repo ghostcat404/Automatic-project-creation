@@ -48,7 +48,7 @@ configure_git() {
     done
     mkdir profile
     touch profile/config
-    chmod 600 profile/config
+    chmod 644 profile/config
     echo "GITUSERNAME=$uservar" >> profile/config
     echo "DEFAULTPROJECTPATH=$directory_path" >> profile/config
 }
