@@ -1,12 +1,11 @@
 #!/bin/bash
 set_git_user_info() {
-    echo "Please enter your info for setting .gitconfig file"
-    read -p "User name: " uservar
-    read -p "User email: " useremail
     git config --global user.name "$uservar"
     git config --global user.email "$useremail"
 }
-configure_git_config() {
+configure_git() {
+    read -p "User name for https://github.com: " uservar
+    read -p "User email for https://github.com: " useremail
     if [[ -f "$HOME/.gitconfig" ]];
     then
         if [[ -z $(git config --get user.name) ]];
@@ -21,22 +20,42 @@ configure_git_config() {
     # Check that directory exist
     while true;
     do
+        # TODO: сделать так, чтобы можно было несколько раз делать ../../../
         read -p "Default projects directory path: " directory_path
+        if [[ ${directory_path:0:2} == "~/" ]];
+        then
+            directory_path="$HOME/${directory_path:2}"
+        elif [[ ${directory_path:0:1} == "." ]]
+        then
+            directory_path="$(pwd)"
+        elif [[ ${directory_path:0:2} == "./" ]]
+        then
+            directory_path="$(pwd)"
+        elif [[ ${directory_path:0:3} == "../" ]]
+        then
+            directory_path="$(pwd)${directory_path:2}"
+        fi
         if [[ -d $directory_path ]];
         then
-            git config --global path.default "$directory_path";
             break
         else
             echo "$directory_path does not exist"
             echo "Please enter default projects directory path again"
         fi
     done
+    mkdir profile
+    touch profile/.config
+    echo "GITUSERNAME=\"$uservar\"" >> profile/.config
+    echo "DEFAULTPROJECTPATH=\"$directory_path\"" >> profile/.config
 }
 
 # Define installer folder
 default_folder=$(pwd)
 # Detect system
 system_name=$(uname)
+# Define user data
+uservar=""
+useremail=""
 
 # Define the util path depending on the system
 case "$system_name" in
@@ -46,7 +65,7 @@ case "$system_name" in
 esac
 
 # Configure git config
-configure_git_config
+configure_git
 
 # Copy all files to the desired folder
 if [[ ! -d "$util_path" ]];
@@ -55,8 +74,9 @@ then
 else
     echo ""
     echo "Directory $util_path already exist"
-    while true; do
-        read -p "Do you wish to REINSTALL util? All old files will be removed. [y/n]: " yn
+    while true;
+    do
+        read -p "Do you wish to REINSTALL util? [y/n]: " yn
         case $yn in
             [Yy]* | "yes" ) 
                 rm -rf $util_path
@@ -74,6 +94,8 @@ else
 fi
 cp -r ./bin $util_path
 cp -r ./src $util_path
+cp -r ./profile $util_path
+rm -rf ./profile
 mv $util_path/bin/.create_command.sh $util_path
 
 # Add symbolic link to util

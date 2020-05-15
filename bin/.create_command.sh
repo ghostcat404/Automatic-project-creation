@@ -1,5 +1,7 @@
 #!/bin/bash
 
+##################################### IMPORTS ######################################
+. ./profile/.config
 #################################### FUNCTIONS  ####################################
 
 usage_options() {
@@ -13,6 +15,7 @@ usage_options() {
     echo "    -h, --help                               Getting help for usage"
     echo ""
 }
+
 usage_examples() {
     echo "EXAMPLES:"
     echo ""
@@ -33,6 +36,17 @@ usage_examples() {
     echo "        create -f <project name> --path </full/path/to/folder>"
 }
 
+suicide() {
+    echo "It is a pity that you decided to take this step..."
+    echo ""
+    echo "But, it's only your choice"
+    echo "It was a pleasure working with you"
+    echo "--------GOODBYE MOTH** ****ER--------"
+    cd ../
+    rm -rf create
+    rm -rf /usr/local/bin/create
+    cd ~/
+}
 #################################### END FUNCTIONS  #################################
 
 #################################### START MAIN  ####################################
@@ -44,6 +58,7 @@ then
     usage
     exit 1
 fi
+# TODO: ADD checking arguments combination!
 PROJECT_PATH=""
 PROJECT_NAME=""
 use_ssh_key=1
@@ -79,6 +94,26 @@ while [ "$1" != "" ]; do
             usage_examples
             exit
             ;;
+        --suicide )
+            echo "Are you seriously???"
+            while true;
+            do
+                read -p "Do you want to KILL ME?! [y/n]: " yn
+                case $yn in
+                    [Yy]* | "yes" ) 
+                        echo "Oh my GOD..."
+                        echo ""
+                        suicide
+                        exit
+                        ;;
+                    [Nn]* | "no" )
+                        echo "Ugh you scared me"
+                        exit
+                        ;;
+                    * ) echo "Please answer yes or no.";;
+                esac
+            done
+            ;;
         * )
 	    echo "invalid option!!!"
             usage_options
@@ -97,10 +132,10 @@ fi
 ########################### Define variables ###########################
 # Directory where source stored
 dir=$(dirname $(readlink /usr/local/bin/create))
-USER_NAME=$(git config --get user.name)
+USER_NAME=$GITUSERNAME
 if [[ -z $PROJECT_PATH ]];
 then
-    DEFAULT_PROJECT_PATH=$(git config --get path.default)
+    DEFAULT_PROJECT_PATH=$DEFAULTPATH
 else
     DEFAULT_PROJECT_PATH=$PROJECT_PATH
 fi
