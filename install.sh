@@ -5,7 +5,10 @@ set_git_user_info() {
 }
 configure_git() {
     read -p "User name for https://github.com: " uservar
-    read -p "User email for https://github.com: " useremail
+    if [[ -z $(git config --get user.email) ]];
+    then
+        read -p "User email for https://github.com: " useremail
+    fi
     if [[ -f "$HOME/.gitconfig" ]];
     then
         if [[ -z $(git config --get user.name) ]];
@@ -45,6 +48,7 @@ configure_git() {
     done
     mkdir profile
     touch profile/.config
+    chmod 600 progile/.config
     echo "GITUSERNAME=\"$uservar\"" >> profile/.config
     echo "DEFAULTPROJECTPATH=\"$directory_path\"" >> profile/.config
 }
