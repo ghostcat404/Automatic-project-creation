@@ -1,11 +1,11 @@
 #!/bin/bash
 
 ##################################### IMPORTS ######################################
-. /opt/create/profile/.config
+# . /usr/local/Cellar/create-proj/profile/.config
 #################################### FUNCTIONS  ####################################
 
 usage_options() {
-    echo "USAGE: create [options [arg]] ..."
+    echo "USAGE: create-proj [options [arg]] ..."
     echo ""
     echo "OPTIONS:"
     echo ""
@@ -23,17 +23,17 @@ usage_examples() {
     echo "    (see README.md in https://github.com/ChesnovAE/Automatic-project-creation/blob/master/README.md)"
     echo "    Just type:"
     echo ""
-    echo "        create -f <project name>"
+    echo "        create-proj -f <project name>"
     echo ""
     echo "    For example, if you work not on your main computer, you can"
     echo "    create project using github UserName and Password:"
     echo ""
-    echo "        create -f <project name> -p"
+    echo "        create-proj -f <project name> -p"
     echo ""
     echo "    Creating project in another folder that different from the"
     echo "    default folder that was determined during installation"
     echo ""
-    echo "        create -f <project name> --path </full/path/to/folder>"
+    echo "        create-proj -f <project name> --path </full/path/to/folder>"
 }
 
 suicide() {
@@ -43,8 +43,8 @@ suicide() {
     echo "It was a pleasure working with you"
     echo "--------GOODBYE MOTH** ****ER--------"
     cd ../
-    rm -rf create
-    rm -rf /usr/local/bin/create
+    rm -rf create-proj
+    rm -rf /usr/local/bin/create-proj
     cd ~/
 }
 #################################### END FUNCTIONS  #################################
@@ -131,7 +131,9 @@ fi
 
 ########################### Define variables ###########################
 # Directory where source stored
-dir=$(dirname $(readlink /usr/local/bin/create))
+dir=$(dirname $(readlink /usr/local/bin/create-proj))
+declare $(env -i $(cat $dir/profile/config))
+
 USER_NAME=$GITUSERNAME
 if [[ -z $PROJECT_PATH ]];
 then

@@ -47,10 +47,10 @@ configure_git() {
         fi
     done
     mkdir profile
-    touch profile/.config
-    chmod 600 profile/.config
-    echo "GITUSERNAME=\"$uservar\"" >> profile/.config
-    echo "DEFAULTPROJECTPATH=\"$directory_path\"" >> profile/.config
+    touch profile/config
+    chmod 600 profile/config
+    echo "GITUSERNAME=$uservar" >> profile/config
+    echo "DEFAULTPROJECTPATH=$directory_path" >> profile/config
 }
 
 # Define installer folder
@@ -63,8 +63,8 @@ useremail=""
 
 # Define the util path depending on the system
 case "$system_name" in
-    "Darwin" ) util_path="/usr/local/Cellar/create";;
-    "Linux" ) util_path="/opt/create";;
+    "Darwin" ) util_path="/usr/local/Cellar/create-proj";;
+    "Linux" ) util_path="/opt/create-proj";;
     * ) exit 1;;
 esac
 
@@ -84,7 +84,7 @@ else
         case $yn in
             [Yy]* | "yes" ) 
                 rm -rf $util_path
-                rm -rf "/usr/local/bin/create"
+                rm -rf "/usr/local/bin/create-proj"
                 break
                 ;;
             [Nn]* | "no" )
@@ -103,7 +103,7 @@ rm -rf ./profile
 mv $util_path/bin/.create_command.sh $util_path
 
 # Add symbolic link to util
-ln -s "$util_path/.create_command.sh" "/usr/local/bin/create"
+ln -s "$util_path/.create_command.sh" "/usr/local/bin/create-proj"
 
 # Remove installation folder or not?
 while true; do
